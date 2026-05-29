@@ -32,7 +32,7 @@ export default function MainLayout() {
 
   const handleGlobalUploadSuccess = () => {
     dispatch(setPrescriptionFilterActive(true));
-    navigate('/categories');
+    navigate('/medicines');
   };
 
   // Monitor scroll for premium visual indicators
@@ -197,8 +197,8 @@ export default function MainLayout() {
                 Home
               </button>
               <button 
-                onClick={() => { navigate('/categories'); }}
-                className={`hover:text-forest transition-colors ${location.pathname.startsWith('/categories') ? 'text-forest border-b-2 border-forest pb-1' : ''}`}
+                onClick={() => { navigate('/medicines'); }}
+                className={`hover:text-forest transition-colors ${location.pathname.startsWith('/medicines') || location.pathname.startsWith('/categories') ? 'text-forest border-b-2 border-forest pb-1' : ''}`}
               >
                 Medicines
               </button>
@@ -381,8 +381,8 @@ export default function MainLayout() {
             <span className="text-[10px]">Home</span>
           </button>
           <button 
-            onClick={() => navigate('/categories')}
-            className={`flex flex-col items-center gap-1 ${isActive('/categories') ? 'text-forest font-bold' : 'text-slate-400'}`}
+            onClick={() => navigate('/medicines')}
+            className={`flex flex-col items-center gap-1 ${isActive('/medicines') || isActive('/categories') ? 'text-forest font-bold' : 'text-slate-400'}`}
           >
             <FiPlusCircle className="w-5 h-5" />
             <span className="text-[10px]">Medicines</span>
@@ -566,7 +566,7 @@ export default function MainLayout() {
                   <FiHome className="text-teal" /> Home
                 </button>
                 <button 
-                  onClick={() => { navigate('/categories'); setShowMobileSidebar(false); }}
+                  onClick={() => { navigate('/medicines'); setShowMobileSidebar(false); }}
                   className="w-full flex items-center gap-3 px-3 py-2 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50"
                 >
                   <FiActivity className="text-teal" /> Buy Medicines

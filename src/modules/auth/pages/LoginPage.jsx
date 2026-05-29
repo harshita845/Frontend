@@ -6,7 +6,7 @@ import {
   TextField, Button, CircularProgress, InputAdornment, 
   Tabs, Tab, Box 
 } from '@mui/material';
-import { FiSmartphone, FiUser, FiMail, FiCheckCircle, FiShield } from 'react-icons/fi';
+import { FiSmartphone, FiUser, FiMail, FiCheckCircle, FiShield, FiLock, FiEye, FiEyeOff, FiShoppingBag } from 'react-icons/fi';
 import Logo from '../../../shared/components/Logo';
 import { sendOtpStart, sendOtpSuccess, verifyOtpSuccess } from '../store/authSlice';
 
@@ -22,6 +22,8 @@ export default function LoginPage() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [userName, setUserName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [validationError, setValidationError] = useState('');
 
@@ -34,6 +36,10 @@ export default function LoginPage() {
     e.preventDefault();
     if (!phoneNumber || phoneNumber.length < 10) {
       setValidationError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    if (tabValue === 1 && (!password || password.length < 6)) {
+      setValidationError('Password must be at least 6 characters long');
       return;
     }
     setValidationError('');
@@ -192,6 +198,33 @@ export default function LoginPage() {
                       ),
                     }}
                   />
+                  <TextField
+                    label="Password"
+                    type={showPassword ? 'text' : 'password'}
+                    variant="outlined"
+                    fullWidth
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <FiLock className="text-slate-400" />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="bg-transparent border-0 cursor-pointer text-slate-400 hover:text-slate-650 flex items-center p-1"
+                          >
+                            {showPassword ? <FiEyeOff className="text-base" /> : <FiEye className="text-base" />}
+                          </button>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
                 </>
               )}
 
@@ -298,71 +331,6 @@ export default function LoginPage() {
             </motion.form>
           )}
         </AnimatePresence>
-
-        {/* Dynamic Sandbox Demo Logins Expander - Great for testing! */}
-        <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2.5">
-          <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-widest">
-            Sandbox Fast-Track Logins
-          </p>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => handleQuickLogin('customer')}
-              className="py-1.5 px-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl text-[10px] font-extrabold uppercase transition-all"
-            >
-              Patient
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickLogin('vendor')}
-              className="py-1.5 px-2 bg-teal-light/20 hover:bg-teal-light/40 border border-teal/20 text-teal-dark rounded-xl text-[10px] font-extrabold uppercase transition-all"
-            >
-              Vendor
-            </button>
-            <button
-              type="button"
-              onClick={() => handleQuickLogin('admin')}
-              className="py-1.5 px-2 bg-forest-light/30 hover:bg-forest-light/60 border border-forest/20 text-forest rounded-xl text-[10px] font-extrabold uppercase transition-all"
-            >
-              Admin
-            </button>
-          </div>
-        </div>
-
-        {/* Merchant Partner Portals */}
-        <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-3">
-          <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-widest">
-            Merchant & Admin Access
-          </p>
-          <div className="grid grid-cols-2 gap-3 text-center">
-            <button
-              type="button"
-              onClick={() => navigate('/vendor/login')}
-              className="py-2.5 px-3 border border-slate-200 hover:border-teal hover:text-teal text-slate-600 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-slate-50/50 hover:bg-teal-light/10"
-            >
-              <FiShoppingBag className="w-3.5 h-3.5 shrink-0" />
-              <span>Seller Store</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/admin/login')}
-              className="py-2.5 px-3 border border-slate-200 hover:border-teal hover:text-teal text-slate-600 text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer bg-slate-50/50 hover:bg-teal-light/10"
-            >
-              <FiShield className="w-3.5 h-3.5 shrink-0" />
-              <span>Super Admin</span>
-            </button>
-          </div>
-          <div className="text-center text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
-            Want to list your pharmacy?{' '}
-            <button
-              type="button"
-              onClick={() => navigate('/vendor/signup')}
-              className="text-teal hover:underline font-black"
-            >
-              Register Here
-            </button>
-          </div>
-        </div>
 
 
 
